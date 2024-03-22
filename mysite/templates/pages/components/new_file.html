@@ -1,0 +1,34 @@
+<form id="new_file_form">
+    {% comment %} {% csrf_token %} {% endcomment %}
+    <label id="#folder">Wybierz czy w jakims folderze </label>
+    <br>
+    <select name="parent_folder" id="parent_folder">
+        <option value=""></option>
+        {% for folder in folders2 %}
+            <option value="{{ folder.id }}">{{ folder.title }}</option>
+        {% endfor %}
+    </select>    
+    <hr>
+    
+    <label id="#title_label">Title</label>
+    <br>
+    <input id = "title" type="textarea" name="title" placeholder="Enter Title" class="addinput" required>
+    <hr>
+
+    <label id="#description_label">Description</label>
+    <br>
+    <textarea id = "description" name="description" class="addinput description-input"></textarea>
+    <hr>
+
+    <label id="#create_date">Czas Utworzenia</label>
+    <br>
+    <input id="creation_date" type="datetime-local" name ="creation_date" value="{{ current_date }}">
+    <hr>
+
+    <label id="#data">Treść</label>
+    <br>
+    <textarea id = "data" name="data" class="addinput description-input"></textarea>
+    <hr>
+
+    <button id="new_file_button" type="submit">Dodaj plik</button>
+</form>

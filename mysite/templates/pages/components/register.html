@@ -1,0 +1,23 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+<form method="POST">
+    {% comment %} {% csrf_token %} {% endcomment %}
+    <div class="header">
+        <h1>Rejestracja</h1>
+        <h2 style="color: red">{{ error }}</h2>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <label for="username">Login</label><br>
+            <input id="username" type="login" name="username" required><br>
+            <label for="password">Hasło</label><br>
+            <input id="password" type="password" name="password" required><br>
+        </div>
+    </div>
+    <br>
+    <div class="footer">
+        <button type="submit">Zarejestruj się</button><br><br>
+    </div>
+</form>
+{% endblock content%}

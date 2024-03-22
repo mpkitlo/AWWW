@@ -1,0 +1,21 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+<form method="POST">
+    {% comment %} {% csrf_token %} {% endcomment %}
+    <div class="header">
+        <h1>Logowanie</h1>
+        <h2 style="color: red">{{ error }}</h2>
+    </div>
+    <div class="column">
+        <label for="username">Login</label><br>
+        <input id="username" type="login" name="username" value="{{ username }}" required><br>
+        <label for="password">Hasło</label><br>
+        <input id="password" type="password" name="password" value="{{ password }}" required><br>
+    </div>
+    <br>
+    <div class="footer">
+        <button type="submit">Zaloguj się</button><br><br>
+    </div>
+</form>
+{% endblock content%}

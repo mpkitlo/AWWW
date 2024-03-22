@@ -1,0 +1,201 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl"><head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/lib/codemirror.css">
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.62.3/mode/clike/clike.js"></script>
+
+    <title>zadania 1</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id="body">
+    {% comment %} {{standard_flag}} {% endcomment %}
+    <div id="nav">
+        <a id = "newFolder", href='#', onclick="event.preventDefault(); NewFolder();">Nowy Katalog</a>  
+        <a id = "newFile", href='#', onclick="event.preventDefault(); NewFile();">Nowy Plik</a>     
+        <a id = "compile", href='#', onclick="event.preventDefault(); Compile();">Kompiluj</a>    
+        <a id = "downloadFile", href='#', onclick="event.preventDefault(); DownloadFile();">Zapisz asm</a>    
+        <a id = "fixSections", href='#', onclick="event.preventDefault(); FixSections();">Edytuje Sekcje</a>      
+        <a href="{% url 'compilator:logout' %}">Wyloguj Się</a>
+        <a id = "colapseAll", href='#', style = "float: right", onclick="event.preventDefault(); ColapseAll(document);">Zwiń Wszytsko</a>  
+        <a id = "uncolapseAll", href='#', style = "float: right", onclick="event.preventDefault(); UnColapseAll(document);">Rozwiń Wszytsko</a>  
+        <div style="display: flex; height: 100%; background-color: #757575;"></div>
+    </div>
+    <div id="aside1">
+        <div id="content-block">
+            {% include 'pages/components/gen_folder.html' %}
+        </div>   
+    </div>
+    <div id="section"><div id="wrapper2">{% for f1 in file.get_arr %}<textarea class="code-line" id = "line{{ forloop.counter }}">{{ f1 }}</textarea>{% endfor %}</div></div>
+    <div id="gutter"></div>
+    <div id="aside2"><div id="wrapper">{% for error in asm_error %}<div class="warrning" onclick="event.preventDefault(); ShowLine(document, '{{ error|escapejs }}');">{{ error }}</div>{% endfor %}{% for f1, f2 in asm_file %}<div class="code-field"><div class="label" onclick="event.preventDefault(); Colapse(this);">{{f1}}</div><div class="content" style="display: block">{{f2}}</div></div>{% endfor %}</div></div>
+        <div id="footer1">
+            <a href="#STANDARD">STANDARD</a>        
+            <a href="#OPTYMALIZACJE">OPTYMALIZACJE</a>
+            <a href="#PROCESOR">PROCESOR</a>
+            <a href="#ZALEŻNE">ZALEŻNE</a>
+        </div>
+    <div id="footer2">      
+        {% include 'pages/components/standard.html' %}
+        {% include 'pages/components/optimizations.html' %}
+        {% include 'pages/components/procesor.html' %}
+        {% include 'pages/components/dependent.html' %}
+    </div>
+    <script>
+        var csrfToken = "{{ csrf_token }}"
+        var index = '{% url "compilator:index" %}'
+        var new_folder = '{% url "compilator:new_folder" %}'
+        var new_file = '{% url "compilator:new_file" %}'
+        var compile = '{% url "compilator:compile" %}'
+        var download_file = '{% url "compilator:download_file" %}'
+        var fix_sections =  '{% url "compilator:fix_sections" %}'
+        var delete_file = '{% url "compilator:delete_file" %}'
+        var delete_folder = '{% url "compilator:delete_folder" %}'
+        var show_file = '{% url "compilator:show_file" %}'
+        var standard = '{% url "compilator:standard" %}'
+        var optimization = '{% url "compilator:optimization" %}'
+        var procesor = '{% url "compilator:procesor" %}'
+        var dependent = '{% url "compilator:dependent" %}'
+    </script>  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var textareas = document.getElementsByClassName('code-line');
+            
+            for (var i = 0; i < textareas.length; i++) {
+              var textarea = textareas[i];
+              var asm;
+          
+              if (!textarea.classList.contains('CodeMirror')) { // Check if CodeMirror is not already applied
+                if (textarea.value.includes('__asm')) {
+                    asm = true;
+                }  
+
+                if (asm) {
+                    var editor = CodeMirror.fromTextArea(textarea, {
+                        readOnly: true,
+                    });
+                } else { 
+                    var editor = CodeMirror.fromTextArea(textarea, {
+                        readOnly: true,
+                        mode: 'text/x-csrc',
+                    });
+                }
+          
+                editor.setSize('100%', 'auto');
+                var cmDiv = editor.getWrapperElement(); // Get the CodeMirror div
+                cmDiv.id = 'linee' + (i + 1); // Set the unique ID based on line number
+
+                cmDiv.style.maxHeight = '20px';
+
+                if (asm) {
+                    cmDiv.style.color = 'pink'
+                }
+
+                if (textarea.value.includes('__endasm')) {
+                    asm = false;
+                }  
+              }
+            }
+        });
+          
+
+        function Colapse(label){
+            var content = label.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+        function ColapseAll(xd){
+            var contents = xd.querySelectorAll('.content');
+            contents.forEach(function(content) {
+            content.style.display = "none";
+            });
+        }
+        function UnColapseAll(doc){
+            var contents = doc.querySelectorAll('.content');
+            contents.forEach(function(content) {
+                content.style.display = "block";
+            });
+        }
+        function ShowLine(doc, line){
+            var contents = doc.querySelectorAll('.CodeMirror');
+            contents.forEach(function(content) {
+                content.style.backgroundColor = "#2e2e2e";
+            });
+            var regex = /temp_file\.c:(\d+)/;
+            var match = line.match(regex);
+            var number = parseInt(match[1]);
+            var div = doc.getElementById("linee" + number);
+            div.style.backgroundColor = "red";
+        }
+
+
+        function ShowFile(file_id){
+            $.ajax({
+                type:'GET',
+                url: show_file,
+                data: {csrfmiddlewaretoken: csrfToken, "file_id": file_id},
+                success: function() {
+                    $('#section').load(' #wrapper2')
+                    $('#aside2').load(' #aside2', function() {
+                        var textareas = document.getElementsByClassName('code-line');
+            
+                        for (var i = 0; i < textareas.length; i++) {
+                        var textarea = textareas[i];
+                        var asm;
+                    
+                            if (!textarea.classList.contains('CodeMirror')) { // Check if CodeMirror is not already applied
+                                if (textarea.value.includes('__asm')) {
+                                    asm = true;
+                                }  
+
+                                if (asm) {
+                                    var editor = CodeMirror.fromTextArea(textarea, {
+                                        readOnly: true,
+                                    });
+                                } else { 
+                                    var editor = CodeMirror.fromTextArea(textarea, {
+                                        readOnly: true,
+                                        mode: 'text/x-csrc',
+                                    });
+                                }
+                        
+                                    editor.setSize('100%', 'auto');
+                                    var cmDiv = editor.getWrapperElement(); // Get the CodeMirror div
+                                    cmDiv.id = 'linee' + (i + 1); // Set the unique ID based on line number
+
+                                    cmDiv.style.maxHeight = '20px';
+
+                                    if (asm) {
+                                        cmDiv.style.color = 'pink'
+                                    }
+
+                                    if (textarea.value.includes('__endasm')) {
+                                        asm = false;
+                                    }  
+                            }
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+    <script type="text/javascript" src = "{% static 'javascript/new_folder.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/new_file.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/compile.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/download_file.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/fix_sections.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/delete_file.js' %}"></script>
+    <script type="text/javascript" src = "{% static 'javascript/delete_folder.js' %}"></script>
+    {% comment %} <script type="text/javascript" src = "{% static 'javascript/show_file.js' %}"></script> {% endcomment %}
+    <script type="text/javascript" src = "{% static 'javascript/footer.js' %}"></script> 
+</body>
+    
+</html>

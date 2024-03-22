@@ -1,0 +1,272 @@
+:root {
+    --color1: 74, 133, 215;
+    --color2: 183, 209, 231;
+    --color3: 46, 46, 46;
+    --color4: 117, 117, 117;
+}
+
+html, body {
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+}
+
+* {
+    font-family: 'comic sans';
+    /* background-color: #a2a2a2; */
+    filter : invert(var(--inv));
+    box-sizing: border-box;
+}
+
+.CodeMirror {
+    position: relative;
+    overflow: hidden;
+    background: rgb(var(--color3));
+    color: white;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+ul {
+    font-size: 2vh;
+    list-style-type: none;
+    background-color: rgb(var(--color2));
+    padding-left: 15px;
+}
+
+/* NAV */
+#nav {
+    float: left;    
+    width: 100%;
+    height: 5%;
+}
+
+#nav a {
+    display: flex;
+    float: left;
+    color: #f2f2f2;
+    margin: 0px 1px 0px 0px;
+    background-color: rgb(var(--color1));
+    justify-content: center;
+    align-items: center;
+    width: 8%;
+    height: 100%;
+    font-size: 2vh;
+}
+
+#nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* ASIDE1 */
+
+#aside1 {
+    float: left;
+    width: 20%;
+    height: 95%;
+    background-color: rgb(var(--color2));
+}
+
+.caret {
+    background-color: rgb(var(--color2));
+    user-select: none;
+}
+
+.caret::before {
+    color: black;
+    display: inline-block;
+}
+
+/* ASIDE2 */
+
+#aside2
+{
+    font: 1vw/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    color: #f2f2f2;
+    float: left;
+    width: 20%;
+    height: 70%;
+    white-space: pre-wrap;
+    overflow: auto;
+    background-color: rgb(var(--color3));
+}
+
+#aside2 .label{
+    background-color: rgb(var(--color3));
+}
+
+#aside2 {
+    background-color: rgb(var(--color3));
+}
+
+.content,
+.warrning,
+.code-line {
+    display: block;
+    background-color: rgb(var(--color3));
+}
+
+.code-field:hover .label{
+    filter: brightness(200%);
+}
+
+.code-field:hover .content{
+    filter: brightness(120%);
+}
+
+/* SECTION */
+#wrapper2 {
+    font: 1vw/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    color: #f2f2f2;
+    float: left;
+    width: 100%;
+    height: 100%;
+    white-space: pre-wrap;
+    overflow: auto;
+    background-color: rgb(var(--color3));
+}
+
+#section {
+    font: 1vw/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    color: #f2f2f2;
+    float: left;
+    width: 57%;
+    height: 70%;
+    white-space: pre-wrap;
+    overflow: auto;
+    background-color: rgb(var(--color3));
+}
+
+#gutter {
+    float: left;
+    background-color: #3f3f3f;
+    width: 3%;
+    height: 70%;
+}
+/* style="opacity: 0; font-size: 1px; height: 1px; width: 1px; transform: translate(284px, 247px);" */
+
+/* FOOTER1 */
+
+#footer1 {
+    display: flex;
+    /* border: 3px solid black; */
+    float: left;
+    width: 80%;
+    height: 5%;
+    background-color:  rgb(var(--color4));
+
+}
+
+#footer1 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    width: 12vw;
+    font-size: 2vh;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+    color: white;
+    background-color: rgb(var(--color1));
+}
+
+#footer1 a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.warrning:hover{
+    filter: brightness(150%);
+}
+
+
+/* FOOTER2 */
+
+.tab-content {
+    display: none;
+}
+.tab-content:target {
+    display: block;
+}
+
+#footer2 {
+    float: left;
+    width: 80%;
+    height: 20%;
+    background-color: #a2a2a2;
+
+}
+
+/* @media only screen and (max-width: 1200px) {
+
+    #footer1{
+        height: 10%;
+    }
+    #nav a{
+        font-size: 2vw;
+    }
+    #aside1{
+        font-size: 2vw;
+        width: 100%;
+        height: 15%;
+    }
+    #section textarea{
+        float: right;
+        color: #f2f2f2;
+        outline: none;
+        width: 100%;
+        border: 0;
+        resize: none;
+        height: 100%;
+        font-size: medium;
+        background-color: rgb(var(--color3));
+        font-size: 2vw;
+    }
+    #aside2 textarea{
+        float: right;
+        color: #f2f2f2;
+        outline: none;
+        width: 100%;
+        border: 0;
+        resize: none;
+        height: 100%;
+        font-size: medium;
+        background-color: rgb(var(--color3));
+        font-size: 2vw;
+    }
+    #gutter{
+        font-size: 2vw;
+        width: 5%;
+        height: 45%;
+    }
+    #section{
+        font-size: 2vw; 
+        width: 95%;
+        height: 45%;
+    }
+    #aside2{
+        font-size: 2vw;
+        width: 100%;
+        height: 20%;
+    }
+    #footer1{
+        width: 100%;
+        height: 5%
+    }
+    #footer1 a{
+        font-size: 2vw;
+    }
+    #footer2{
+        font-size: 2vw;
+        width: 100%;
+        height: 15%
+    } 
+} */

@@ -1,0 +1,24 @@
+{% load static %}
+
+{% for file in files %}
+<ul>
+    <a class="caret" href='#', onclick="event.preventDefault(); ShowFile('{{file.id}}')">
+    {% comment %} <a class="caret" href="{% url 'compilator:show_file' file_id=file.id %}"> {% endcomment %}
+        <img src="static/assets/file.png" width="15" height="15" style="background-color:rgb(183, 209, 231)">
+        {{ file.title }}
+    </a>
+    <a id = "delete_file", href='#', onclick="event.preventDefault(); event.stopPropagation(); DeleteFile('{{file.id}}')">usuń</a>  
+    {% comment %} <a id = "delete_file", href="{% url 'compilator:delete_file' '{{file.id}}'file_id=file.id %}">usuń</a>   {% endcomment %}
+</ul>
+{% endfor %}
+
+{% for folder in folders %}
+<ul>
+    <span class="caret">
+        <img src="static/assets/folder.png" width="15" height="15" style="background-color:rgb(183, 209, 231)"> {{ folder.title }}   
+    </span>
+    <a id = "delete_folder", href='#', onclick="event.preventDefault(); event.stopPropagation(); DeleteFolder('{{folder.id}}')">usuń</a>
+    {% comment %} <a id = "delete_folder", href="{% url 'compilator:delete_folder' folder_id=folder.id %}">usuń</a>   {% endcomment %}
+    {% include 'pages/components/gen_folder.html' with files=folder.get_file_childs folders=folder.get_folder_childs%}
+</ul>
+{% endfor %}

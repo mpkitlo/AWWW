@@ -1,0 +1,22 @@
+<div id="ZALEŻNE" class="tab-content">
+    <form id = "set_dependent">
+        Wybierz flagi:
+        <label for="dependent_flag">Ustaw dodatkową opcje</label><hr>
+        <select name="dependent_flag" id="dependent_flag">
+            <option value=""></option>
+            {% if procesor_flag == "MCS51"%}
+                <option value="model-small">model-small</option>
+                <option value="model-medium">model-medium</option>
+                <option value="model-large">model-large</option>
+            {% elif procesor_flag == "Z80" %}
+                <option value="fno-omit-frame-pointer">fno-omit-frame-pointer</option>
+                <option value="reserve-regs-iy">reserve-regs-iy</option>
+            {% elif procesor_flag == "STM8" %}
+                <option value="model-small">model-small</option>
+                <option value="model-medium">model-medium</option>         
+            {% endif %}
+        </select><br>
+        <br>
+        <button type="submit">Ustaw dodatkowe opcje</button>  
+    </form>
+</div>

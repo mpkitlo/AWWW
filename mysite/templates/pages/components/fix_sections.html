@@ -1,0 +1,19 @@
+<form id="edit_sections">
+    {% comment %} {% csrf_token %} {% endcomment %}
+    {% for section_type, section in sections %}
+        <select name="{{section.id}}-" id="{{section.id}}-" class="s">
+            <option value="{{section_type}}">{{section_type}}</option>
+            {% for t in section_types %}
+                {% if t.s_type != section_type %}
+                    <option value="{{ t.s_type }}">{{ t.s_type }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>  
+         {{section.section_status.s_status}}
+        <textarea readonly id = "{{section.id}}" name="{{section.id}}" style=" width:100%; height:25%;">{{section.data}}</textarea>
+        <button id="cut_out" onclick="event.preventDefault(); CutOut()">wytnij z sekcji</button>
+        <hr>
+    {% endfor %}
+    <button id="save_sections" type="submit">Zapisz Sekcje</button>
+    {% comment %} <button type="submit">Dodaj Nową Sekcje</button> {% endcomment %}
+</form>

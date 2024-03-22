@@ -1,0 +1,15 @@
+
+<div id="PROCESOR" class="tab-content">
+    <form id = "set_procesor">
+        {% comment %} {% csrf_token %} {% endcomment %}
+        Wybierz architekture procesora:
+        <hr>
+        <select name="procesor_flag" id="processo_flag">
+            <option value="MCS51">MCS51</option>
+            <option value="Z80">Z80</option>
+            <option value="STM8">STM8</option>
+        </select>   
+        <br>
+        <button type="submit">Ustaw Architekture </button>  
+    </form>
+</div>

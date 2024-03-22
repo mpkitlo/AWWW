@@ -1,0 +1,30 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+<form method="POST">
+    {% comment %} {% csrf_token %} {% endcomment %}
+
+    <label id="#folder_label">Wybierz Folder</label>
+    <br>
+    <select name="delete_folder" id="delete_folder">
+        <option value=""></option>
+        {% for folder in folders2 %}
+            <option value="{{ folder.id }}">"{{ folder.title }}"</option>
+        {% endfor %}
+    </select>    
+    <hr>
+
+   <label id="#file_label">Wybierz Plik </label>
+    <br>
+    <select name="delete_file" id="delete_file">
+        <option value=""></option>
+        {% for file in files2 %}
+            <option value="{{ file.id }}">"{{ file.title }}"</option>
+        {% endfor %}
+    </select>    
+    <hr> 
+
+    <button id="new_folder_btn" type="submit">Usun Plik/Folder </button>
+
+</form>
+{% endblock content%}

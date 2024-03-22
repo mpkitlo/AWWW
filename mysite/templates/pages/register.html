@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rejestracja</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'assets/css/login.css' %}"> {% endcomment %}
+</head>
+<body>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="header">
+                <h1>Rejestracja</h1>
+                <h2 style="color: red">{{ error }}</h2>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <label for="username">Login</label>
+                    <input id="username" type="login" name="username" required>
+                    <label for="password">Hasło</label>
+                    <input id="password" type="password" name="password" required>
+                </div>
+            </div>
+            <div class="footer">
+                <button type="submit">Zarejestruj się</button><br><br>
+                <p>Masz już konto?<br>
+                <a href="{% url 'compilator:login' %}">Zaloguj się!</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
